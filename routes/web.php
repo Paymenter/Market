@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-Route::post('/webhook', [App\Http\Controllers\WebhookController::class, 'handleWebhook']);
+Route::post('/webhook', [App\Http\Controllers\WebhookController::class, 'handleStripeWebhook']);
+Route::post('/pwebhook', [App\Http\Controllers\WebhookController::class, 'handlePaypalWebhook'])->name('paypal.webhook');
 Route::group(['prefix' => 'settings', 'middleware' => 'verified'], function () {
     Route::get('/', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
     Route::get('/connect', [App\Http\Controllers\SettingsController::class, 'connect'])->name('settings.connect');
+    Route::post('/paypal', [App\Http\Controllers\SettingsController::class, 'paypal'])->name('settings.paypal');
     Route::post('/', [App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
 });
 
@@ -34,7 +36,8 @@ Route::group(['prefix' => 'resource'], function () {
     Route::post('/create', [App\Http\Controllers\ResourceController::class, 'store'])->name('resource.store')->middleware('verified');
     Route::get('/{resource}', [App\Http\Controllers\ResourceController::class, 'show'])->name('resource.show');
     Route::get('/{resource}/edit', [App\Http\Controllers\ResourceController::class, 'edit'])->name('resource.edit')->middleware('verified');
-    Route::get('/{resource}/buy', [App\Http\Controllers\ResourceController::class, 'buy'])->name('resource.buy')->middleware('verified');
+    Route::get('/{resource}/stripe', [App\Http\Controllers\ResourceController::class, 'buyStripe'])->name('resource.buy.stripe')->middleware('verified');
+    Route::get('/{resource}/paypal', [App\Http\Controllers\ResourceController::class, 'buyPaypal'])->name('resource.buy.paypal')->middleware('verified');
     Route::put('/{resource}/edit', [App\Http\Controllers\ResourceController::class, 'update'])->name('resource.update')->middleware('verified');
     Route::post('/{resource}/delete', [App\Http\Controllers\ResourceController::class, 'delete'])->name('resource.delete')->middleware('verified');
     Route::get('/{resource}/download', [App\Http\Controllers\ResourceController::class, 'download'])->name('resource.download')->middleware('verified');

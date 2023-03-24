@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Orders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
@@ -12,7 +13,7 @@ class WebhookController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function handleWebhook(Request $request)
+    public function handleStripeWebhook(Request $request)
     {
         $payload = $request->all();
         $event = null;
@@ -54,6 +55,7 @@ class WebhookController extends Controller
         }
         $order->status = 'paid';
         $order->save();
+        $this->postToDiscord("Order {$order->id} has been paid for {$paymentIntent->amount} {$paymentIntent->currency} by {$paymentIntent->customer}.")
     }
 
     private function handlePaymentIntentPaymentFailed($paymentIntent){
@@ -80,6 +82,50 @@ class WebhookController extends Controller
         ));
         $result = curl_exec($curl);
         curl_close($curl);
+    }
+
+    public function handlePaypalWebhook(Request $request)
+    {
+        $raw_post_data = file_get_contents('php://input');
+        $raw_post_array = explode('&', $raw_post_data);
+        $myPost = array();
+        foreach ($raw_post_array as $keyval) {
+            $keyval = explode('=', $keyval);
+            if (count($keyval) == 2)
+                $myPost[$keyval[0]] = urldecode($keyval[1]);
+        }
+        $req = 'cmd=_notify-validate';
+        foreach ($myPost as $key => $value) {
+            $value = urlencode($value);
+
+            $req .= "&$key=$value";
+        }
+
+        $ch = curl_init('https://ipnpb.sandbox.paypal.com/cgi-bin/webscr');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+        if (!($res = curl_exec($ch))) {
+            Log::error("Got " . curl_error($ch) . " when processing IPN data");
+            curl_close($ch);
+            exit;
+        }
+        curl_close($ch);
+        if ($res == 'VERIFIED') {
+            $order = Orders::where('paypal_id', $myPost['txn_id'])->first();
+            if(!$order){
+                $this->postToDiscord("Failed to find order for {$myPost['txn_id']}");
+                return;
+            }
+            $order->status = 'paid';
+            $order->save();
+        }
+        header("HTTP/1.1 200 OK");
     }
 
 }

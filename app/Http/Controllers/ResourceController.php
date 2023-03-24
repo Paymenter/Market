@@ -83,8 +83,9 @@ class ResourceController extends Controller
 
         $json_data = [
             'content' => 'New resource created by ' . auth()->user()->username,
-            'username' => 'Resources',
+            'username' => auth()->user()->username,
             'tts' => false,
+            'avatar_url' => url('/storage/users/' . auth()->user()->avatar),
             'embeds' => [
                 [
                     'title' => $resource->name,
@@ -107,7 +108,6 @@ class ResourceController extends Controller
                     ],
                 ],
             ],
-
         ];
         // Set headers
         $headers = [
@@ -223,7 +223,7 @@ class ResourceController extends Controller
         }
     }
 
-    public function buy(Resource $resource)
+    public function buyStripe(Resource $resource)
     {
         //if(!auth()->user()->resources->contains($resource->id) && $resource->price != 0)
         if (!$resource->user()->get()->first()->stripe_id) {
@@ -242,35 +242,6 @@ class ResourceController extends Controller
         }
         $resource->increment('sales');
 
-        $order = $stripe->checkout->sessions->create([
-            'success_url' => route('resource.show', $resource->id),
-            'cancel_url' => route('resource.show', $resource->id),
-            'customer_email' => auth()->user()->email,
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => $resource->price * 100,
-                        'product_data' => [
-                            'name' => 'Resource: ' . $resource->name,
-                            'images' => [url('/storage/resource/' . $resource->image)],
-                        ],
-                    ],
-                    'quantity' => 1,
-                ]
-            ],
-            'mode' => 'payment',
-            'payment_intent_data' => [
-                'application_fee_amount' => ($resource->price * 0.1) * 100,
-            ],
-            'metadata' => [
-                'resource_id' => $resource->id,
-                'user_id' => auth()->user()->id,
-            ],
-        ], [
-            'stripe_account' => $resource->user()->get()->first()->stripe_id,
-        ]);
-
         Orders::create([
             'user_id' => auth()->user()->id,
             'resource_id' => $resource->id,
@@ -278,21 +249,47 @@ class ResourceController extends Controller
             'amount' => $resource->price,
             'status' => 'pending'
         ]);
-        // log to discord
-        $webhookUrl = env('DISCORD_WEBHOOK_URL');
-        $data = ['content' => 'User: ' . auth()->user()->username . ' bought resource: [' . $resource->name . ' for ' . $resource->price . '€]' . ' (https://www.stripe.com/dashboard/payments/' . $order->id . ')'];
-        $json = json_encode($data);
-        $ch = curl_init($webhookUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
 
         return redirect($order->url);
+    }
+
+    public function buyPaypal(Resource $resource)
+    {
+        if (!$resource->user()->get()->first()->paypal) {
+            return back()->with('error', 'User does not have a Paypal account!');
+        }
+        // if ($resource->user()->get()->first()->id == auth()->user()->id) {
+        //     return back()->with('error', 'You cannot buy your own resource!');
+        // }
+        if (auth()->user()->orders()->where('resource_id', $resource->id)->exists()) {
+            if(auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'paid') {
+                return back()->with('error', 'You already bought this resource!');
+            }
+        }
+        $order = Orders::create([
+            'user_id' => auth()->user()->id,
+            'resource_id' => $resource->id,
+            'amount' => $resource->price,
+            'status' => 'pending'
+        ]);
+        $paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+        $paypal_email = $resource->user()->get()->first()->paypal;
+        $return_url = route('resource.show', $resource->id);
+        $cancel_url = route('resource.show', $resource->id);
+        $notify_url = route('paypal.webhook');
+        $currency = 'EUR';
+        $querystring = '?cmd=_xclick&';
+        $querystring .= 'business=' . urlencode($paypal_email) . '&';
+        $querystring .= 'return=' . urlencode(stripslashes($return_url)) . '&';
+        $querystring .= 'cancel_return=' . urlencode(stripslashes($cancel_url)) . '&';
+        $querystring .= 'notify_url=' . urlencode($notify_url) . '&';
+        $querystring .= 'item_name=' . urlencode($resource->name) . '&';
+        $querystring .= 'item_number=' . urlencode($resource->id) . '&';
+        $querystring .= 'amount=' . urlencode($resource->price) . '&';
+        $querystring .= 'custom=' . urlencode($order->id) . '&';
+        $querystring .= 'currency_code=' . urlencode($currency);
+        
+        dd($paypal_url . $querystring);
+        return redirect($paypal_url . $querystring);
     }
 }

@@ -13,33 +13,7 @@ class SettingsController extends Controller
 
 
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        /*
-        $order = $stripe->checkout->sessions->create([
-            'success_url' => url(route('settings.index')),
-            'cancel_url' => url(route('settings.index')),
-            'customer_email' => auth()->user()->email,
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => 2000,
-                        'product_data' => [
-                            'name' => 'T-shirt',
-                            'images' => ["https://i.imgur.com/EHyR2nP.png"],
-                        ],
-                    ],
-                    'quantity' => 1,
-                ]
-            ],
-            'mode' => 'payment',
-            'payment_intent_data' => [
-                'application_fee_amount' => (20 * 0.1) * 100,
-            ],
-        ], [
-            'stripe_account' => Auth::user()->stripe_id,
-        ]);
 
-        return redirect($order->url);*/
         $user = Auth::user();
         if ($user->stripe_id) {
             $account = $stripe->accounts->retrieve($user->stripe_id);
@@ -105,5 +79,16 @@ class SettingsController extends Controller
         $user->stripe_id = $account->id;
         $user->save();
         return redirect($link->url);
+    }
+
+    public function paypal (Request $request)
+    {
+        $request->validate([
+            'paypal' => 'required|email'
+        ]);
+        $user = User::find(auth()->user()->id);
+        $user->paypal = $request->get('paypal');
+        $user->save();
+        return redirect()->back()->with('success', 'PayPal email updated!');
     }
 }

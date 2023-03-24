@@ -67,7 +67,9 @@
                 <div class="mt-4 text-right">
                     @if (auth()->user())
                         @if (auth()->user()->orders()->where('resource_id', $resource->id)->exists() || $resource->price == 0)
-                            @if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first() ? auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'completed' : false)
+                            @if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()
+                                    ? auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'completed'
+                                    : false)
                                 <a href="{{ route('resource.download', $resource->id) }}"
                                     class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
                                     Download
@@ -78,16 +80,62 @@
                                     Download
                                 </a>
                             @else
-                                <a href="{{ route('resource.buy', $resource->id) }}"
-                                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
-                                    Buy
-                                </a>
+                                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button">Buy <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg></button>
+                                <div id="dropdownHover"
+                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdownHoverButton">
+                                        @if ($resource->user()->get()->first()->stripe_id)
+                                            <li>
+                                                <a href="{{ route('resource.buy.stripe', $resource->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                    with Stripe</a>
+                                            </li>
+                                        @endif
+                                        @if ($resource->user()->get()->first()->paypal)
+                                            <li class="mt-1">
+                                                <a href="{{ route('resource.buy.paypal', $resource->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                    with PayPal</a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
                             @endif
                         @else
-                            <a href="{{ route('resource.buy', $resource->id) }}"
-                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
-                                Buy
-                            </a>
+                            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button">Buy <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div id="dropdownHover"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownHoverButton">
+                                    @if ($resource->user()->get()->first()->stripe_id)
+                                        <li>
+                                            <a href="{{ route('resource.buy.stripe', $resource->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                with Stripe</a>
+                                        </li>
+                                    @endif
+                                    @if ($resource->user()->get()->first()->paypal)
+                                        <li class="mt-1">
+                                            <a href="{{ route('resource.buy.paypal', $resource->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                with PayPal</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         @endif
                     @else
                         @if ($resource->price == 0)
@@ -96,10 +144,33 @@
                                 Download
                             </a>
                         @else
-                            <a href="{{ route('resource.buy', $resource->id) }}"
-                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
-                                Buy
-                            </a>
+                            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button">Buy <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg></button>
+                            <div id="dropdownHover"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownHoverButton">
+                                    @if ($resource->user()->get()->first()->stripe_id)
+                                        <li>
+                                            <a href="{{ route('resource.buy.stripe', $resource->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                with Stripe</a>
+                                        </li>
+                                    @endif
+                                    @if ($resource->user()->get()->first()->paypal)
+                                        <li class="mt-1">
+                                            <a href="{{ route('resource.buy.paypal', $resource->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Buy
+                                                with PayPal</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         @endif
                     @endif
                 </div>
@@ -116,7 +187,8 @@
 
                 <!-- Owner controls -->
                 @if (auth()->user())
-                    @if (Auth::user()->id == $resource->user()->get()->first()->id)
+                    @if (Auth::user()->id ==
+                            $resource->user()->get()->first()->id)
                         <div class="mt-4 text-right">
                             <a href="{{ route('resource.edit', $resource->id) }}"
                                 class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">

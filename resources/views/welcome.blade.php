@@ -39,7 +39,7 @@
     <div class="flex flex-col items-center justify-center w-full h-1/2">
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach (App\Models\Resource::where('status', 'published')->orderBy('downloads', 'desc')->limit(3)->get() as $resource)
-                <a class="bg-gray-50 dark:bg-gray-800 text-center items-center p-4" href="{{ route('resource.show', $resource->id) }}">
+                <a class="bg-gray-50 dark:bg-gray-800 text-center items-center p-4 rounded-md" href="{{ route('resource.show', $resource->id) }}">
                     <h4 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $resource->name }}</h4>
                     <img src="{{ asset('storage/resource/' . $resource->image) }}" alt="{{ $resource->name }}" onerror="this.onerror=null;this.src='/img/logo.png';" class="w-full h-64 object-cover">
                     <p class="text-gray-500 dark:text-gray-400">Downloads {{ $resource->downloads }}</p>
