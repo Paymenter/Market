@@ -85,7 +85,7 @@
                                     </div>
                                     <div data-popper-arrow></div>
                                 </div>
-                                • <span class="text-xs text-gray-500">€{{ $resource->price }}</span>
+                                • <span class="text-xs text-gray-500">€{{ $resource->price ?? 'Free' }}</span>
                             </td>
                         </tr>
                     @endforeach

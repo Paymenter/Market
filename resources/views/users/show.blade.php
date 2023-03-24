@@ -109,7 +109,7 @@
                                                     </div>
                                                     <div data-popper-arrow></div>
                                                 </div>
-                                                • <span class="text-xs text-gray-500">€{{ $resource->price }}</span>
+                                                • <span class="text-xs text-gray-500">€{{ $resource->price ?? 'Free' }}</span>
                                             </td>
 
                                             <td class="px-6 py-4 text-gray-900 dark:text-white">

@@ -61,7 +61,7 @@
                             Connected to Stripe as {{ $account->business_profile->name }}
                         </button>
                         <p class="text-sm text-gray-900 dark:text-white">This means that you can now accept payments from
-                           your customers. And create resources!</p>
+                            your customers. And create resources!</p>
                         <br>
                         <!-- visit stripe dashboard -->
                         <a href="https://dashboard.stripe.com" target="_blank"
@@ -86,6 +86,28 @@
                 @endisset
             </div>
         </div>
-    </div>
+        <div class="relative w-full max-w-3xl p-4 md:h-auto" id="paypal">
+            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                <div
+                    class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Fill your PayPal email
+                    </h3>
+                </div>
+                <form action="{{ route('settings.paypal') }}" method="POST">
+                    @csrf
+                    <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                        <div class="sm:col-span-2">
+                            <label for="paypal"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PayPal
+                                email</label>
+                            <input type="email" name="paypal" id="paypal" value="{{ $user->paypal }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="paypal@paymenter.org" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </x-layouts-main>

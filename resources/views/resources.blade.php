@@ -1,7 +1,7 @@
 <x-layouts-main>
     <div class="lg:w-4/5 lg:mx-auto">
         <div class="grid w-full grid-cols-2 px-6 py-10 md:grid-cols-3 sm:rounded-lg">
-            <div class="col-span-2 overflow-x-auto">
+            <div class="col-span-2 overflow-x-auto rounded-md">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <caption
                         class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
@@ -28,7 +28,7 @@
                                 <td class="flex items-center w-1/3 px-6 py-4">
                                     <img src="{{ asset('storage/resource/' . $resource->image) }}"
                                         onerror="this.onerror=null;this.src='/img/logo.png';"
-                                        class="w-10 h-10 rounded-md" alt="Image">
+                                        class="h-10 rounded-md" alt="Image">
                                     <p class="pl-1 text-sm font-medium text-gray-900 dark:text-white" id="productName">
                                         {{ $resource->name }} </p>
                                 </td>
@@ -62,7 +62,7 @@
                                         </div>
                                         <div data-popper-arrow></div>
                                     </div>
-                                    • <span class="text-xs text-gray-500">€{{ $resource->price }}</span>
+                                    • <span class="text-xs text-gray-500">€{{ $resource->price ?? 'Free' }}</span>
                                 </td>
 
                                 <td class="px-6 py-4 text-gray-900 dark:text-white">
