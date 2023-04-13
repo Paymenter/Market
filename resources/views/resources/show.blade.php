@@ -219,6 +219,41 @@
                         <span class="font-semibold text-gray-900 dark:text-white">You must be logged in to leave a
                             review.</span>
                     </p>
+                @elseif($resource->price == 0)
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">
+                        <span class="font-semibold text-gray-900 dark:text-white">Leave a review</span>
+                    </p>
+                    <form method="POST" action="{{ route('resource.review', $resource->id) }}">
+                        @csrf
+                        <div class="mt-2">
+                            <label for="rating"
+                                class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Rating</label>
+                            <div class="mt-1 rounded-md shadow-sm">
+                                <select id="rating" name="rating"
+                                    class="block w-full form-select transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                    <option value="5">5 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="1">1 Stars</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <label for="review"
+                                class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-200">Review</label>
+                            <div class="mt-1 rounded-md shadow-sm">
+                                <textarea id="review" name="review" rows="3"
+                                    class="block w-full form-textarea transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button type="submit"
+                                class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
                 @else
                     @if (auth()->user()->id ==
                             $resource->user()->get()->first()->id)
