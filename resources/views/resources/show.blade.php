@@ -227,14 +227,14 @@
                                 own resource.</span>
                         </p>
                         <!-- Check if user has ordered resource -->
-                    @elseif (!auth()->user()->orders()->where('resource_id', $resource->id)->exists())
+                    @elseif (!auth()->user()->orders()->where('resource_id', $resource->id)->exists() && $resource->price !== 0)
                         <p class="mt-2 text-gray-600 dark:text-gray-400">
                             <span class="font-semibold text-gray-900 dark:text-white">You must have purchased this
                                 resource to leave a review.</span>
                         </p>
                     @else
                         @if (auth()->user()->orders()->where('resource_id', $resource->id)->exists())
-                            @if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status !== 'paid')
+                            @if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status !== 'paid' && $resource->price !== 0)
                                 <p class="mt-2 text-gray-600 dark:text-gray-400">
                                     <span class="font-semibold text-gray-900 dark:text-white">You must have purchased
                                         this resource to leave a review.</span>
