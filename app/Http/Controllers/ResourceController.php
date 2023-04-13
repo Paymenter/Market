@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Resource, Orders};
+use App\Models\{Resource, Orders, ResourceReview};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -211,7 +211,7 @@ class ResourceController extends Controller
         if (!Storage::disk('extensions')->exists('resource/' . $resource->file)) {
             return back()->with('error', 'File not found!');
         }
-        if(!session()->has('resource_download_' . $resource->id)) {
+        if (!session()->has('resource_download_' . $resource->id)) {
             session()->put('resource_download_' . $resource->id, 1);
             $resource->increment('downloads');
         }
@@ -233,7 +233,9 @@ class ResourceController extends Controller
             return back()->with('error', 'You cannot buy your own resource!');
         }
         if (auth()->user()->orders()->where('resource_id', $resource->id)->exists()) {
-            return back()->with('error', 'You already bought this resource!');
+            if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'paid') {
+                return back()->with('error', 'You already bought this resource!');
+            }
         }
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $account = $stripe->accounts->retrieve($resource->user()->get()->first()->stripe_id);
@@ -242,13 +244,18 @@ class ResourceController extends Controller
         }
         $resource->increment('sales');
 
-        Orders::create([
-            'user_id' => auth()->user()->id,
-            'resource_id' => $resource->id,
-            'stripe_id' => $order->id,
-            'amount' => $resource->price,
-            'status' => 'pending'
-        ]);
+        if (!auth()->user()->orders()->where('resource_id', $resource->id)->exists()) {
+            Orders::create([
+                'user_id' => auth()->user()->id,
+                'resource_id' => $resource->id,
+                'stripe_id' => $order->id,
+                'amount' => $resource->price,
+                'status' => 'pending'
+            ]);
+        }
+        $order = auth()->user()->orders()->where('resource_id', $resource->id)->get()->first();
+        $order->stripe_id = $order->id;
+        $order->save();
 
         return redirect($order->url);
     }
@@ -262,16 +269,18 @@ class ResourceController extends Controller
         //     return back()->with('error', 'You cannot buy your own resource!');
         // }
         if (auth()->user()->orders()->where('resource_id', $resource->id)->exists()) {
-            if(auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'paid') {
+            if (auth()->user()->orders()->where('resource_id', $resource->id)->get()->first()->status == 'paid') {
                 return back()->with('error', 'You already bought this resource!');
             }
         }
-        $order = Orders::create([
-            'user_id' => auth()->user()->id,
-            'resource_id' => $resource->id,
-            'amount' => $resource->price,
-            'status' => 'pending'
-        ]);
+        if (!auth()->user()->orders()->where('resource_id', $resource->id)->exists()) {
+            Orders::create([
+                'user_id' => auth()->user()->id,
+                'resource_id' => $resource->id,
+                'amount' => $resource->price,
+                'status' => 'pending'
+            ]);
+        }
         $paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         $paypal_email = $resource->user()->get()->first()->paypal;
         $return_url = route('resource.show', $resource->id);
@@ -283,13 +292,31 @@ class ResourceController extends Controller
         $querystring .= 'return=' . urlencode(stripslashes($return_url)) . '&';
         $querystring .= 'cancel_return=' . urlencode(stripslashes($cancel_url)) . '&';
         $querystring .= 'notify_url=' . urlencode($notify_url) . '&';
-        $querystring .= 'item_name=' . urlencode($resource->name) . '&';
+        $querystring .= 'item_name=' . urlencode(substr($resource->name, 0, -2)) . '&';
         $querystring .= 'item_number=' . urlencode($resource->id) . '&';
         $querystring .= 'amount=' . urlencode($resource->price) . '&';
         $querystring .= 'custom=' . urlencode($order->id) . '&';
         $querystring .= 'currency_code=' . urlencode($currency);
-        
-        dd($paypal_url . $querystring);
+
         return redirect($paypal_url . $querystring);
+    }
+
+    public function review(Resource $resource, Request $request)
+    {
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+            'review' => 'required|string'
+        ]);
+        if (ResourceReview::where('user_id', auth()->user()->id)->where('resource_id', $resource->id)->exists()) {
+            return back()->with('error', 'You already reviewed this resource!');
+        }
+        $review = ResourceReview::create([
+            'user_id' => auth()->user()->id,
+            'resource_id' => $resource->id,
+            'rating' => request()->rating,
+            'body' => request()->review
+        ]);
+        $resource->reviews()->avg('rating');
+        return back()->with('success', 'Review added!');
     }
 }

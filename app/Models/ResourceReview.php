@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class ResourceReview extends Model
 {
     use HasFactory;
 
@@ -15,16 +15,10 @@ class Resource extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'description',
-        'slogan',
-        'views',
-        'downloads',
-        'price',
-        'status',
-        'image',
-        'type',
+        'body',
+        'rating',
         'user_id',
+        'resource_id',
     ];
 
     /**
@@ -33,14 +27,12 @@ class Resource extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'status',
-        'views',
-        'downloads',
+        'user_id',
+        'resource_id',
     ];
 
-    
     /**
-     * The user that owns the resource.
+     * The user that owns the review.
      */
     public function user()
     {
@@ -48,11 +40,10 @@ class Resource extends Model
     }
 
     /**
-     * All the reviews that belong to the resource.
+     * The resource that owns the review.
      */
-    public function reviews()
+    public function resource()
     {
-        return $this->hasMany(ResourceReview::class);
+        return $this->belongsTo(Resource::class, 'resource_id');
     }
-
 }

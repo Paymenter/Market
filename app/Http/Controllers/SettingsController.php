@@ -81,7 +81,7 @@ class SettingsController extends Controller
         return redirect($link->url);
     }
 
-    public function paypal (Request $request)
+    public function paypal(Request $request)
     {
         $request->validate([
             'paypal' => 'required|email'

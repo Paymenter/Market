@@ -41,6 +41,7 @@ Route::group(['prefix' => 'resource'], function () {
     Route::put('/{resource}/edit', [App\Http\Controllers\ResourceController::class, 'update'])->name('resource.update')->middleware('verified');
     Route::post('/{resource}/delete', [App\Http\Controllers\ResourceController::class, 'delete'])->name('resource.delete')->middleware('verified');
     Route::get('/{resource}/download', [App\Http\Controllers\ResourceController::class, 'download'])->name('resource.download')->middleware('verified');
+    Route::post('/{resource}/review', [App\Http\Controllers\ResourceController::class, 'review'])->name('resource.review')->middleware('verified');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
