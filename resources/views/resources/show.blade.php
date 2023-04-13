@@ -219,7 +219,7 @@
                         <span class="font-semibold text-gray-900 dark:text-white">You must be logged in to leave a
                             review.</span>
                     </p>
-                @elseif($resource->price == 0)
+                @elseif($resource->price == 0 && $resource->user()->get()->first()->id == auth()->user()->id && $resource->reviews()->where('user_id', auth()->user()->id)->count() > 0)
                     <p class="mt-2 text-gray-600 dark:text-gray-400">
                         <span class="font-semibold text-gray-900 dark:text-white">Leave a review</span>
                     </p>
