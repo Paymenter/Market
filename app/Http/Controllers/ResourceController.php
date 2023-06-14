@@ -281,6 +281,7 @@ class ResourceController extends Controller
                 'status' => 'pending'
             ]);
         }
+        $order = auth()->user()->orders()->where('resource_id', $resource->id)->get()->first();
         $paypal_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         $paypal_email = $resource->user()->get()->first()->paypal;
         $return_url = route('resource.show', $resource->id);

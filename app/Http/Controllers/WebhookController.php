@@ -55,7 +55,7 @@ class WebhookController extends Controller
         }
         $order->status = 'paid';
         $order->save();
-        $this->postToDiscord("Order {$order->id} has been paid for {$paymentIntent->amount} {$paymentIntent->currency} by {$paymentIntent->customer}.")
+        $this->postToDiscord("Order {$order->id} has been paid for {$paymentIntent->amount} {$paymentIntent->currency} by {$paymentIntent->customer}.");
     }
 
     private function handlePaymentIntentPaymentFailed($paymentIntent){
