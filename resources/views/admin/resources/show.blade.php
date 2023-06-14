@@ -51,20 +51,6 @@
                         @endif
                     </span>
                 </p>
-                <!-- Buy button -->
-                <div class="mt-4 text-right">
-                    @if ($resource->price == 0)
-                        <a href="{{ route('resource.download', $resource->id) }}"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
-                            Download
-                        </a>
-                    @else
-                        <a href="{{ route('resource.buy', $resource->id) }}"
-                            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-800 border border-transparent rounded-lg active:bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-gray">
-                            Buy
-                        </a>
-                    @endif
-                </div>
                 <!-- Stats -->
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Stats</h1>
                 <p class="mt-2 text-gray-600 dark:text-gray-400">
