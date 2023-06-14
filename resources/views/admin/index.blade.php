@@ -1,5 +1,5 @@
 <x-layouts-main>
-    <section class="bg-white dark:bg-gray-900">
+    <section class="bg-secondary-50 dark:bg-gray-900">
         <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
             <dl class="grid max-w-screen-md gap-8 mx-auto text-gray-900 sm:grid-cols-3 dark:text-white">
                 <div class="flex flex-col items-center justify-center">
@@ -26,12 +26,12 @@
         </div>
     </section>
     <!-- New added resources -->
-    <section class="bg-white dark:bg-gray-900">
+    <section class="bg-secondary-50 dark:bg-gray-900">
         <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white">New Added Resources</h2>
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <caption
-                    class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                    class="p-5 text-lg font-semibold text-left text-gray-900 bg-secondary-50 dark:text-white dark:bg-secondary-100">
                     Our products
                     <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list of all our
                         extensions and themes.</p>
@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                     @foreach ($resources->where('status', 'pending') as $resource)
-                        <tr class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
+                        <tr class="text-white bg-secondary-50 border-b dark:bg-secondary-100 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
                             onclick="window.location.href = '/admin/resources/{{ $resource->id }}';">
                             <td class="flex items-center w-1/3 px-6 py-4">
                                 <img src="{{ asset('storage/resource/' . $resource->image) }}"
@@ -62,7 +62,7 @@
                                 <span
                                     data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                                 <div data-popover id="popover-user-profile" role="tooltip"
-                                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                                     <div class="p-3">
                                         <div class="flex items-center justify-between mb-2">
                                             <a href="#">

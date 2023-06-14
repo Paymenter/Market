@@ -29,9 +29,9 @@
     @isset($image)<meta property="twitter:image" content="{{ $image }}">@endisset
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900">
+<body class="bg-secondary-100 dark:bg-secondary-50">
     <header>
-        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <nav class="border-gray-200 px-4 lg:px-6 py-2.5 bg-secondary-50 dark:bg-secondary-100">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto">
                 <a href="/" class="flex items-center">
                     <img src="/img/logo.png" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
@@ -108,7 +108,7 @@
                                 alt="user photo" onerror="this.src='/img/logo.png';this.onerror=null;">
                         </button>
                         <!-- Dropdown menu -->
-                        <div class="z-50 hidden w-56 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                        <div class="z-50 hidden w-56 my-4 text-base list-none bg-secondary-50 divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                             id="dropdown">
                             <div class="px-4 py-3">
                                 <span

@@ -7,7 +7,7 @@
 			</a>
 		</div>
 
-		<div class="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+		<div class="w-full px-6 py-4 mt-6 overflow-hidden bg-secondary-50 shadow-md sm:max-w-md sm:rounded-lg">
 			<div class="mb-4 text-sm text-gray-600">
 				{{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
 			</div>

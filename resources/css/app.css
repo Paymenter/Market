@@ -1,3 +1,35 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+    --secondary-50: #ffffff;
+    --secondary-100: #fafcff;
+    --secondary-200: #ebeef3;
+    --secondary-300: #bbbfd2;
+    --secondary-400: #808498;
+    --secondary-500: #606372;
+    --secondary-600: #4d4f60;
+    --secondary-700: #353741;
+    --secondary-800: #1c1c20;
+    --secondary-900: #000000;
+
+    --primary-50: #EDF0FF;
+    --primary-100: #C6DBFF;
+    --primary-200: #9BBEFB;
+    --primary-300: #799CD8;
+    --primary-400: #5270FD;
+}
+
+.dark {
+    --secondary-50: #1E202D;
+    --secondary-100: #313441;
+    --secondary-200: #404351;
+    --secondary-300: #4F525E;
+    --secondary-400: #656874;
+    --secondary-500: #7D8091;
+    --secondary-600: #AEB2C2;
+    --secondary-700: #CACBD2;
+    --secondary-800: #F1F1F1;
+    --secondary-900: #ffffff;
+}

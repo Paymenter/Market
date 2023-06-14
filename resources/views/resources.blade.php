@@ -4,12 +4,12 @@
             <div class="col-span-2 overflow-x-auto rounded-md">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <caption
-                        class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                        class="p-5 text-lg font-semibold text-left text-gray-900 bg-secondary-50 dark:text-white dark:bg-secondary-100">
                         Our products
                         <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list of all our
                             extensions and themes.</p>
                     </caption>
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-secondary-50 dark:bg-secondary-100 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="">
                             </th>
@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                         @foreach ($resources as $resource)
-                            <tr class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
+                            <tr class="text-white border-b dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer bg-secondary-50 dark:bg-secondary-100"
                                 onclick="window.location.href = '/resource/{{ $resource->id }}';">
                                 <td class="flex items-center w-1/3 px-6 py-4">
                                     <img src="{{ asset('storage/resource/' . $resource->image) }}"
@@ -38,7 +38,7 @@
                                     <span
                                         data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                                     <div data-popover id="popover-user-profile" role="tooltip"
-                                        class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                        class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                                         <div class="p-3">
                                             <div class="flex items-center justify-between mb-2">
                                                 <a href="#">
@@ -82,12 +82,12 @@
             </div>
             <div class="w-full ml-2">
                 <!-- sort by -->
-                <div class="p-4 mb-4 bg-white rounded-lg dark:bg-gray-800">
+                <div class="p-4 mb-4 bg-secondary-50 rounded-lg dark:bg-secondary-100">
                     <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Sort by</h2>
                     <label class="block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Category</span>
                         <select
-                            class="block w-full mt-1 text-sm text-gray-700 bg-white border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:border-blue-300 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
+                            class="block w-full mt-1 text-sm text-gray-700 bg-secondary-50 border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:border-blue-300 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                             id="sort-by-category" name="category">
                             <option>Any</option>
                             <option value="theme">Theme</option>
@@ -104,7 +104,7 @@
                         <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Search</span>
                             <input type="text"
-                                class="block w-full mt-1 text-sm text-gray-700 bg-white border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:border-blue-300 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
+                                class="block w-full mt-1 text-sm text-gray-700 bg-secondary-50 border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:border-blue-300 focus:outline-none focus:shadow-outline-blue dark:focus:shadow-outline-gray"
                                 id="sort-by-color">
                         </label>
                         <div class="mt-4">

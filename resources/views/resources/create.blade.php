@@ -1,6 +1,6 @@
 <x-layouts-main>
     <div class="lg:w-4/5 lg:mx-auto mt-3">
-        <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+        <div class="relative p-4 bg-secondary-50 rounded-lg shadow dark:bg-secondary-100 sm:p-5">
             <div class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                     Add Product
@@ -98,7 +98,7 @@
         </script>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <caption
-                class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                class="p-5 text-lg font-semibold text-left text-gray-900 bg-secondary-50 dark:text-white dark:bg-secondary-100">
                 This is how your products will be
                 displayed on our website.
                 <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Start filling out the form to see
@@ -118,7 +118,7 @@
             </thead>
             <tbody>
                 <tr
-                    class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900">
+                    class="text-white bg-secondary-50 border-b dark:bg-secondary-100 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900">
                     <td class="flex items-center w-1/3 px-6 py-4">
                         <img src=""
                             onerror="this.onerror=null;this.src='/img/logo.png';" class="w-10 h-10 rounded-md"

@@ -13,7 +13,7 @@
     </x-slot>
     <div class="lg:w-4/5 lg:mx-auto">
         <div class="grid w-full grid-cols-2 px-6 py-10 md:grid-cols-3 sm:rounded-lg">
-            <div class="col-span-2 overflow-x-auto dark:bg-gray-800 p-2 rounded-md bg-white">
+            <div class="col-span-2 overflow-x-auto dark:bg-secondary-100 p-2 rounded-md bg-secondary-50">
                 <!-- Title -->
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $resource->name }}</h1>
                 <!-- Description with markdown -->
@@ -21,14 +21,14 @@
                 <div class="prose dark:prose-invert max-w-full">{!! Str::markdown($resource->description) !!}</div>
                 </p>
             </div>
-            <div class="col-span-1 overflow-x-auto dark:bg-gray-800 p-2 rounded-md ml-4 bg-white">
+            <div class="col-span-1 overflow-x-auto dark:bg-secondary-100 p-2 rounded-md ml-4 bg-secondary-50">
                 <!-- Seller -->
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Seller</h1>
                 <p class="mt-2 text-gray-600 dark:text-gray-400">
                     <span
                         data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                 <div data-popover id="popover-user-profile" role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                     <div class="p-3">
                         <div class="flex items-center justify-between mb-2">
                             <a href="#">
@@ -89,7 +89,7 @@
                                             d="M19 9l-7 7-7-7"></path>
                                     </svg></button>
                                 <div id="dropdownHover"
-                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                    class="z-10 hidden bg-secondary-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownHoverButton">
                                         @if ($resource->user()->get()->first()->stripe_id)
@@ -119,7 +119,7 @@
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div id="dropdownHover"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                class="z-10 hidden bg-secondary-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownHoverButton">
                                     @if ($resource->user()->get()->first()->stripe_id)
@@ -155,7 +155,7 @@
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <div id="dropdownHover"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                class="z-10 hidden bg-secondary-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownHoverButton">
                                     @if ($resource->user()->get()->first()->stripe_id)

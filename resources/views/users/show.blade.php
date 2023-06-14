@@ -4,7 +4,7 @@
 
         <div class="relative w-full max-w-5xl p-4 md:h-auto">
             <!-- show username, bio, and profile image -->
-            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+            <div class="relative p-4 bg-secondary-50 rounded-lg shadow dark:bg-secondary-100 sm:p-5">
                 <div class="flex items-center justify-between pb-4 mb-4 border-b rounded-t sm:mb-5 dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         {{ $user->name }}
@@ -69,7 +69,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($user->resources()->where('status', '=', 'published')->get() as $resource)
-                                        <tr class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
+                                        <tr class="text-white bg-secondary-50 border-b dark:bg-secondary-100 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
                                             onclick="window.location.href = '/resource/{{ $resource->id }}';">
                                             <td class="flex items-center w-1/3 px-6 py-4">
                                                 <img src="{{ $resource->image }}"
@@ -85,7 +85,7 @@
                                                 <span
                                                     data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                                                 <div data-popover id="popover-user-profile" role="tooltip"
-                                                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                                    class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                                                     <div class="p-3">
                                                         <div class="flex items-center justify-between mb-2">
                                                             <a href="#">

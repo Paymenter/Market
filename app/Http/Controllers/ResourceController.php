@@ -54,7 +54,7 @@ class ResourceController extends Controller
             return redirect()->route('settings.index')->with('error', 'You need to connect your stripe account in order to upload a resource');
         $request->validate([
             'name' => 'required|string|max:50',
-            'description' => 'required|string|max:2000',
+            'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'file' => 'mimes:zip|max:20480',
             'slogan' => 'required|string|max:255',
@@ -157,7 +157,7 @@ class ResourceController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:50',
-            'description' => 'required|string|max:2000',
+            'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'file' => 'mimes:zip|max:20480',
             'slogan' => 'required|string|max:255',

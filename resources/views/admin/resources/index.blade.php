@@ -1,6 +1,6 @@
 <x-layouts-main>
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-secondary-50 dark:text-white dark:bg-secondary-100">
             Unpublished resources
         </caption>
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             @foreach ($resources->where('status', 'pending')->sortBy('created_at') as $resource)
-                <tr class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
+                <tr class="text-white bg-secondary-50 border-b dark:bg-secondary-100 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
                     onclick="window.location.href = '{{ route('admin.resources.show', $resource->id) }}'">
                     <td class="flex items-center w-1/3 px-6 py-4">
                         <img src="{{ asset('storage/resource/' . $resource->image) }}"
@@ -29,7 +29,7 @@
                         <span
                             data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                         <div data-popover id="popover-user-profile" role="tooltip"
-                            class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                            class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                             <div class="p-3">
                                 <div class="flex items-center justify-between mb-2">
                                     <a href="#">
@@ -67,7 +67,7 @@
     </table>
 
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-secondary-50 dark:text-white dark:bg-secondary-100">
             Published resources
         </caption>
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -81,7 +81,7 @@
         </thead>
         <tbody>
             @foreach ($resources->where('status', 'published')->sortBy('created_at') as $resource)
-                <tr class="text-white bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
+                <tr class="text-white bg-secondary-50 border-b dark:bg-secondary-100 dark:border-gray-700 hover:dark:border-gray-800 hover:dark:bg-gray-900 hover:cursor-pointer"
                     onclick="window.location.href = '{{ route('admin.resources.show', $resource->id) }}'">
                     <td class="flex items-center w-1/3 px-6 py-4">
                         <img src="{{ asset('storage/resource/' . $resource->image) }}"
@@ -96,7 +96,7 @@
                         <span
                             data-popover-target="popover-user-profile">{{ $resource->user()->get()->first()->username }}</span>
                         <div data-popover id="popover-user-profile" role="tooltip"
-                            class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                            class="absolute z-10 invisible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-secondary-50 border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-secondary-100 dark:border-gray-600">
                             <div class="p-3">
                                 <div class="flex items-center justify-between mb-2">
                                     <a href="#">
